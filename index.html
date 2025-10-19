@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Ngày Phụ Nữ Việt Nam 20/10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive;
+            overflow: hidden;
+            /* Hide scrollbars */
+            cursor: crosshair;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #fbcfe8, #d8b4fe, #a5b4fc, #fda4af);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Canvases */
+        #petal-canvas,
+        #confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Container for 3D effect */
+        .perspective-container {
+            perspective: 1000px;
+        }
+
+        /* Card with 3D transition */
+        .card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s linear;
+        }
+
+        /* Custom animation classes */
+        .fade-in {
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        .fade-in-delay-1 {
+            animation: fadeIn 2s 1s ease-in-out forwards;
+        }
+
+        .fade-in-delay-3 {
+            animation: fadeIn 2s 3s ease-in-out forwards;
+        }
+
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Cursor trail effect */
+        .trail {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.8) 0%, rgba(255, 105, 180, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            width: 20px;
+            height: 20px;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            animation: fadeOutTrail 0.5s forwards;
+        }
+
+        @keyframes fadeOutTrail {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+        }
+
+        /* Music toggle button */
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+            z-index: 100;
+        }
+
+        #music-toggle:hover {
+            transform: scale(1.15);
+        }
+
+        @keyframes pulse-attention {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            50% {
+                transform: scale(1.25);
+                box-shadow: 0 8px 25px rgba(236, 72, 153, 0.6);
+            }
+        }
+
+        .pulse-me {
+            animation: pulse-attention 1.5s 2 ease-in-out;
+            /* Pulse twice */
+        }
+
+        /* Initial Screen */
+        #initial-screen {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        .choice-button {
+            background: linear-gradient(to right, #ec4899, #8b5cf6);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .choice-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        /* Shimmer Effect */
+        .shimmer-text {
+            position: relative;
+            color: transparent;
+            background: linear-gradient(to right, #d946ef, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .shimmer-text::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: shimmer 4s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -150%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        /* Gift Box */
+        #gift-box .lid {
+            z-index: 1;
+            transform-origin: bottom;
+            transition: transform 0.7s ease-in-out;
+        }
+
+        #gift-box.open .lid {
+            transform: translateY(-20px) rotateX(90deg);
+        }
+
+        /* Typing cursor */
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            /* match font size */
+            background-color: #4b5563;
+            animation: blink 0.7s infinite;
+            margin-left: 3px;
+            vertical-align: bottom;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-200">
+
+    <div id="confetti-container" class="fixed inset-0 pointer-events-none z-[250]"></div>
+
+    <!-- Initial Screen with Gift Box -->
+    <div id="initial-screen" class="fixed inset-0 flex flex-col justify-center items-center z-[200]">
+        <h2 class="text-5xl font-bold mb-10 text-white text-center p-4 shimmer-text">Một món quà nhỏ...</h2>
+        <div id="gift-box" class="relative cursor-pointer" title="Click để mở quà!">
+            <div class="lid w-48 h-10 bg-pink-500 rounded-t-md"></div>
+            <div class="box w-44 h-32 bg-pink-400 mx-auto rounded-b-md shadow-lg"></div>
+            <!-- Ribbon -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-full bg-purple-500/80"></div>
+            <div class="absolute top-32 left-0 w-44 h-4 bg-purple-500/80"></div>
+        </div>
+        <div id="choices" class="hidden flex-col md:flex-row gap-8 mt-10">
+            <button id="btn-sister"
+                class="choice-button text-white text-2xl font-bold py-4 px-8 rounded-full shadow-lg">Người Chị Tuyệt
+                Vời</button>
+            <button id="btn-friend"
+                class="choice-button text-white text-2xl font-bold py-4 px-8 rounded-full shadow-lg">Người Bạn Thân
+                Mến</button>
+        </div>
+    </div>
+
+
+    <!-- Canvas for falling petals and hearts -->
+    <canvas id="petal-canvas"></canvas>
+
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 relative perspective-container">
+        <button id="back-button"
+            class="hidden absolute top-6 left-6 z-50 bg-white/70 backdrop-blur-sm rounded-full p-2 shadow-lg hover:scale-110 transition-transform">
+            <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+
+        <!-- Sister Card -->
+        <div id="card-sister"
+            class="card hidden bg-white/70 backdrop-blur-sm shadow-2xl rounded-2xl p-8 max-w-lg w-full text-center text-gray-800">
+            <div class="mb-4 opacity-0 fade-in">
+                <svg class="w-16 h-16 text-pink-500 mx-auto heartbeat" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mb-6 opacity-0 fade-in-delay-1 shimmer-text">Gửi Chị
+                Yêu Dấu</h1>
+            <p id="sister-message" class="text-lg md:text-xl mb-4 opacity-0 min-h-[110px]"></p>
+        </div>
+
+        <!-- Friend Card -->
+        <div id="card-friend"
+            class="card hidden bg-white/70 backdrop-blur-sm shadow-2xl rounded-2xl p-8 max-w-lg w-full text-center text-gray-800">
+            <div class="mb-4 opacity-0 fade-in">
+                <svg class="w-16 h-16 text-pink-500 mx-auto heartbeat" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-pink-600 mb-6 opacity-0 fade-in-delay-1 shimmer-text">Gửi Bạn
+                Thân Mến</h1>
+            <p id="friend-message" class="text-lg md:text-xl mb-4 opacity-0 min-h-[110px]"></p>
+            <p class="text-lg md:text-xl font-semibold text-purple-600 opacity-0">Thân ái! ❤️</p>
+        </div>
+    </div>
+
+    <!-- Music Player -->
+    <audio id="background-music" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/11/17/audio_874b334a49.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="music-toggle" title="Bật/Tắt nhạc">
+        <svg id="play-icon" class="w-6 h-6 text-pink-500 hidden" fill="currentColor" viewBox="0 0 20 20"
+            style="margin-left: 3px;">
+            <path
+                d="M4.018 15.443A1 1 0 005 16h10a1 1 0 00.982-1.557l-5-8a1 1 0 00-1.964 0l-5 8zM5 14h10L10 6.429 5 14z"
+                transform="rotate(90 10 10)" />
+        </svg>
+        <svg id="pause-icon" class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
+        </svg>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('petal-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            // --- Elements ---
+            const initialScreen = document.getElementById('initial-screen');
+            const giftBox = document.getElementById('gift-box');
+            const choices = document.getElementById('choices');
+            const btnSister = document.getElementById('btn-sister');
+            const btnFriend = document.getElementById('btn-friend');
+            const cardSister = document.getElementById('card-sister');
+            const sisterMessageEl = document.getElementById('sister-message');
+            const cardFriend = document.getElementById('card-friend');
+            const friendMessageEl = document.getElementById('friend-message');
+            const musicToggle = document.getElementById('music-toggle');
+            const backgroundMusic = document.getElementById('background-music');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const backButton = document.getElementById('back-button');
+            let isMusicPlaying = false;
+
+            // --- Typewriter Effect ---
+            function typeWriter(element, text, callback) {
+                let i = 0;
+                element.innerHTML = '';
+                element.style.opacity = '1';
+                const cursor = document.createElement('span');
+                cursor.className = 'typing-cursor';
+                element.appendChild(cursor);
+
+                function typing() {
+                    if (i < text.length) {
+                        element.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+                        i++;
+                        setTimeout(typing, 60); // Typing speed
+                    } else {
+                        cursor.remove();
+                        if (callback) callback();
+                    }
+                }
+                typing();
+            }
+
+            // --- Confetti Effect ---
+            function launchConfetti() {
+                const confettiContainer = document.getElementById('confetti-container');
+                const colors = ['#f472b6', '#ec4899', '#d946ef', '#a855f7', '#ffffff'];
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'absolute';
+                    confetti.style.left = '50%';
+                    confetti.style.top = '50%';
+                    const size = Math.random() * 10 + 5;
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confettiContainer.appendChild(confetti);
+                    const angle = Math.random() * 360, radius = Math.random() * 400 + 150;
+                    const translateX = Math.cos(angle * Math.PI / 180) * radius;
+                    const translateY = Math.sin(angle * Math.PI / 180) * radius;
+                    const rotate = Math.random() * 720 - 360;
+                    requestAnimationFrame(() => {
+                        confetti.style.transition = 'transform 1.2s ease-out, opacity 1.2s ease-out';
+                        confetti.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg)`;
+                        confetti.style.opacity = '0';
+                    });
+                    setTimeout(() => confetti.remove(), 1300);
+                }
+            }
+
+            // --- Gift Box Logic ---
+            giftBox.addEventListener('click', () => {
+                giftBox.classList.add('open');
+
+                // Play music on the very first user interaction to unlock audio
+                if (!isMusicPlaying) {
+                    backgroundMusic.play().catch(error => {
+                        console.log("Audio play failed initially. User may need to click toggle.", error);
+                    });
+                    isMusicPlaying = true;
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+
+                    // Add pulse effect to guide the user to the music button
+                    musicToggle.classList.add('pulse-me');
+                    setTimeout(() => {
+                        musicToggle.classList.remove('pulse-me');
+                    }, 3000); // Animation is 1.5s * 2 = 3s
+                }
+
+                setTimeout(() => {
+                    choices.classList.remove('hidden');
+                    choices.classList.add('flex');
+                }, 700);
+            }, { once: true });
+
+            // --- Start Experience Logic ---
+            function startExperience(cardToShow) {
+                initialScreen.style.opacity = '0';
+                setTimeout(() => { initialScreen.style.display = 'none'; }, 700);
+
+                // Reset card state before showing
+                cardToShow.querySelectorAll('.opacity-0').forEach(el => el.style.opacity = '0');
+                cardToShow.classList.remove('hidden');
+                backButton.classList.remove('hidden');
+
+                // Manually trigger animations
+                cardToShow.querySelector('.fade-in').style.animation = 'none';
+                void cardToShow.querySelector('.fade-in').offsetWidth;
+                cardToShow.querySelector('.fade-in').style.animation = '';
+
+                cardToShow.querySelector('.fade-in-delay-1').style.animation = 'none';
+                void cardToShow.querySelector('.fade-in-delay-1').offsetWidth;
+                cardToShow.querySelector('.fade-in-delay-1').style.animation = '';
+
+                launchConfetti();
+
+                const finalLine = cardToShow.querySelector('.font-semibold');
+
+                if (cardToShow.id === 'card-sister') {
+                    const text = "Chúc chị của em ngày 20/10 luôn xinh đẹp, mạnh khỏe, thành công và ngập tràn hạnh phúc. Chị mãi là người chị tuyệt vời nhất của em!";
+                    typeWriter(sisterMessageEl, text, () => {
+                        finalLine.classList.add('fade-in');
+                    });
+                } else {
+                    const text = "Chúc bạn tôi ngày 20/10 thật nhiều niềm vui, luôn xinh tươi, rạng rỡ và thành công trong cuộc sống. Mãi là bạn tốt nhé!";
+                    typeWriter(friendMessageEl, text, () => {
+                        finalLine.classList.add('fade-in');
+                    });
+                }
+            }
+
+            btnSister.addEventListener('click', () => startExperience(cardSister));
+            btnFriend.addEventListener('click', () => startExperience(cardFriend));
+
+            // --- Back Button Logic ---
+            backButton.addEventListener('click', () => {
+                const activeCard = document.querySelector('.card:not(.hidden)');
+                if (activeCard) activeCard.classList.add('hidden');
+                backButton.classList.add('hidden');
+                initialScreen.style.display = 'flex';
+                setTimeout(() => { initialScreen.style.opacity = '1'; }, 10);
+            });
+
+            // --- Music Player Logic ---
+            musicToggle.addEventListener('click', () => {
+                if (isMusicPlaying) {
+                    backgroundMusic.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                } else {
+                    backgroundMusic.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                }
+                isMusicPlaying = !isMusicPlaying;
+            });
+
+            // --- Cursor Trail Effect ---
+            document.addEventListener('mousemove', (e) => {
+                const trail = document.createElement('div');
+                trail.className = 'trail';
+                document.body.appendChild(trail);
+                trail.style.left = `${e.pageX}px`;
+                trail.style.top = `${e.pageY}px`;
+                setTimeout(() => trail.remove(), 500);
+            });
+
+            // --- 3D Card Tilt Effect ---
+            const container = document.querySelector('.perspective-container');
+            container.addEventListener('mousemove', (e) => {
+                const activeCard = container.querySelector('.card:not(.hidden)');
+                if (!activeCard) return;
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                activeCard.style.transform = `rotateX(${-y / 30}deg) rotateY(${x / 30}deg) scale(1.05)`;
+            });
+            container.addEventListener('mouseleave', () => {
+                const activeCard = container.querySelector('.card:not(.hidden)');
+                if (activeCard) activeCard.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+            });
+
+            // --- Canvas Animation ---
+            let petals = [], hearts = [];
+            class Petal {
+                constructor() { this.x = Math.random() * width; this.y = Math.random() * height * 2 - height; this.w = 20 + Math.random() * 10; this.h = 15 + Math.random() * 8; this.opacity = this.w / 30; this.xSpeed = 1 + Math.random(); this.ySpeed = 1 + Math.random(); this.flip = Math.random(); this.flipSpeed = Math.random() * 0.03; this.color = Math.random() < 0.5 ? 'rgba(255, 192, 203, 0.9)' : 'rgba(255, 255, 255, 0.9)'; }
+                draw() { if (this.y > height || this.x > width) { this.x = -this.w; this.y = Math.random() * height * 2 - height; } ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color; ctx.beginPath(); ctx.ellipse(this.x, this.y, this.w * 0.6 * (0.6 + (Math.abs(Math.cos(this.flip)) / 3)), this.h * 0.8 * (0.8 + (Math.abs(Math.sin(this.flip)) / 5)), Math.PI / 10, 0, 2 * Math.PI); ctx.fill(); }
+                animate() { this.x += this.xSpeed; this.y += this.ySpeed; this.flip += this.flipSpeed; this.draw(); }
+            }
+            class Heart {
+                constructor() { this.x = Math.random() * width; this.y = Math.random() * height + height; this.size = Math.random() * 15 + 10; this.speedY = Math.random() * 2 + 1; this.speedX = (Math.random() - 0.5); this.opacity = Math.random() * 0.5 + 0.3; this.color = `rgba(236, 72, 153, ${this.opacity})`; }
+                update() { this.y -= this.speedY; this.x += this.speedX; if (this.y < -this.size) { this.y = height + this.size; this.x = Math.random() * width; } }
+                draw() { ctx.fillStyle = this.color; ctx.beginPath(); const topCurveHeight = this.size * 0.3; ctx.moveTo(this.x, this.y + topCurveHeight); ctx.bezierCurveTo(this.x, this.y, this.x - this.size / 2, this.y, this.x - this.size / 2, this.y + topCurveHeight); ctx.bezierCurveTo(this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + this.size); ctx.bezierCurveTo(this.x, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + topCurveHeight); ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight); ctx.closePath(); ctx.fill(); }
+            }
+            function initCanvasElements() { for (let i = 0; i < 80; i++) petals.push(new Petal()); for (let i = 0; i < 20; i++) hearts.push(new Heart()); }
+            function animateCanvas() {
+                ctx.clearRect(0, 0, width, height);
+                petals.forEach(p => p.animate());
+                hearts.forEach(h => { h.update(); h.draw(); });
+                requestAnimationFrame(animateCanvas);
+            }
+            initCanvasElements();
+            animateCanvas();
+        });
+    </script>
+</body>
+
+</html>
